@@ -82,7 +82,6 @@ body {
         text-align: center;
     }
     :hover {
-        border: 1px blue solid;
         cursor: pointer;
     }
 }
