@@ -16,3 +16,16 @@ Manage a library’s book collection with add/edit/search functions.
 
 # Initial Design
 ![image](images/UI.png)
+
+# Features
+## Description
+- This website should provide an frontend interface for interacting with a library account.
+  - accounts should have to be signed into via some authentication method
+  - accounts should be backed by some database to keep track of information about checked out books
+- it should allow you to search for new books and allow you to check them out
+- it should list the books you have checked out in a way that lets you edit information about this book
+  - check the book back in
+  - viewing general book details
+  - how long you've had this book
+  - etc..
+  - NOTE: These edit features might be buttons somehow grouped with the book entry
