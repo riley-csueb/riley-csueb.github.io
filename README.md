@@ -14,3 +14,5 @@ Manage a library’s book collection with add/edit/search functions.
 - Enhanced Features: User authentication, borrow/return workflow, due-date reminders.
 - Advanced Features: Persistent database storage, role-based permissions (admin vs user), analytics on book popularity.
 
+# Initial Design
+![image](images/UI.png)
