@@ -16,6 +16,7 @@ Manage a library’s book collection with add/edit/search functions.
 
 # Initial Design
 ![image](images/UI.png)
+- this is a very rough visual, the way it already looks is diverged a little bit
 
 # Features
 ## Description
