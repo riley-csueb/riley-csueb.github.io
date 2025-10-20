@@ -26,17 +26,32 @@ function setupEventListeners() {
 
     // Search bar behavior
     let searchbar = document.body.querySelector('#search-bar')
+    let filterName = document.body.querySelector('#filter-name')
+    let filterAuthor = document.body.querySelector('#filter-author')
+    let filterLength = document.body.querySelector('#filter-length')
     searchbar.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
-            console.log(JSON.stringify(searchbar.value));
-            fetch(`http://127.0.0.1:8000/search/name/${searchbar.value}`).then(res => {
+            event.preventDefault();
+            let query = ''
+            if (filterName.checked == true) {
+                query = `search/name/${searchbar.value}`
+            }
+            else if (filterAuthor.checked == true) {
+                query = `search/author/${searchbar.value}`
+            }
+            else if (filterLength.checked == true) {
+                console.log('length search unimplemented')
+            }
+
+            console.log(query)
+            fetch(`http://127.0.0.1:8000/${query}`).then(res => {
                 if (!res.ok) {
                     console.error('invalid response')
                     return
                 }
                 return res.json();
             }).then(data => {
-                console.log(data)
+                console.log("result -> ", data)
             }).catch(err => console.error(`error: ${err}`))
         }
     });

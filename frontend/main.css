@@ -40,8 +40,9 @@ body {
 
 .filter-bar {
     width: 100%;
-    height: 20px;
-    background-color: var(--foreground);
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
 }
 
 #search-bar {

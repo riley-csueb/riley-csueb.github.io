@@ -10,13 +10,21 @@
             <a class="nav-item selected" href="#">Library</a>
             <a class="nav-item" href="./browse.html">Browse</a>
         </div>
-        <div class="filter-bar">
-            <label>Category</label>
-            <select>
-                <option value="category">Category</option>
-            </select>
-        </div>
-        <input id="search-bar" placeholder="Search"/>
+        <form class="filter-bar">
+            <input id="search-bar" placeholder="Search"/>
+            <button id="search-btn">Search</button>
+            <fieldset>
+                <legend>Select a filter type</legend>
+                <div>
+                    <input type="radio" id="filter-name" name="Filter" value="Name"/>
+                    <label for="name">Name</label>
+                    <input type="radio" id="filter-author" name="Filter" value="Author"/>
+                    <label for="author">Author</label>
+                    <input type="radio" id="filter-length" name="Filter" value="Length" checked />
+                    <label for="length">Length</label>
+                </div> 
+            </fieldset>
+        </form>
 
         <!-- The following is a container intended for being populated via javascript -->
         <div class="library" id="book-container">
