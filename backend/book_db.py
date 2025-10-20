@@ -1,4 +1,5 @@
 import json
+from math_helper import lav_dist
 
 class BookDb():
     def __init__(self):
@@ -19,10 +20,12 @@ class BookDb():
         return self.db
 
     def get_by_name(self, book_name: str):
-        return list(filter(lambda book: book['title'] == book_name, self.db))
+        self.db.sort(key=lambda book: book['title'].lower().count(book_name.lower()), reverse=True)
+        return self.db[0:10]
 
     def get_by_author(self, author_name: str):
-        return list(filter(lambda book: book['author'] == author_name, self.db))
+        self.db.sort(key=lambda book: book['author'].lower().count(author_name.lower()), reverse=True)
+        return self.db[0:10]
 
     def get_by_length(self, min: int, max: int):
         return list(filter(lambda book: book['length'] >= min and book['length'] <= max, self.db))
