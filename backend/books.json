@@ -1,0 +1,12 @@
+[
+  { "title": "something",
+    "author": "someone",
+    "length": 102,
+    "cover": "somewhere"
+  },
+  { "title": "something2",
+    "author": "someone2",
+    "length": 453,
+    "cover": "somewhere2"
+  }
+]
