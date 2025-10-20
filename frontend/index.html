@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Library Management System</title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <div class="nav">
+            <a class="nav-item selected" href="#">Library</a>
+            <a class="nav-item" href="./browse.html">Browse</a>
+        </div>
+        <div class="filter-bar">
+            <label>Category</label>
+            <select>
+                <option value="category">Category</option>
+            </select>
+        </div>
+        <input id="search-bar" placeholder="Search"/>
+
+        <!-- The following is a container intended for being populated via javascript -->
+        <div class="library" id="book-container">
+            <div class="book-entry">
+              <div class="main-block">
+                 <img class="cover" src="" alt="">
+              </div>
+              <div class="info-block">
+                 <h3>{title}</h3>
+                 <h4>{author}</h4>
+                 <button>Return Book</button>
+              </div>
+            </div>
+        </div>
+
+        <script src="main.js"></script>
+        <script>
+            const container = document.getElementById("book-container")
+
+            for (let i = 0; i < 100; i++) {
+                container.appendChild(createBookEntryDOM({
+                    name: 'name',
+                    author: 'nameauthor',
+                    coverurl: `https://picsum.photos/50/75?random=${i}`,
+                }))
+            }
+
+            setupEventListeners()
+        </script>
+    </body>
+</html>
