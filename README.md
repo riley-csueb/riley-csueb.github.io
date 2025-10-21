@@ -7,6 +7,8 @@ The repo name should be formatted as such: `rileycsueb.github.io`
 # Github Page
 `https:://your-user-name.github.io`
 
+# Usage
+See [Usage.md](Usage.md)
 
 # Project Description
 Manage a library’s book collection with add/edit/search functions.
