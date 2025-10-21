@@ -11,8 +11,10 @@ app.add_middleware(
         allow_methods="*",
         allow_headers="*")
 auth = AuthDb()
-book = BookDb()
-book.load('books.json')
+books = BookDb()
+
+auth.load('db/auth.json')
+books.load('db/books.json')
 
 
 @app.get("/")
@@ -22,14 +24,19 @@ def read_root():
 
 @app.get("/search/name/{book_name}")
 def search_book_name(book_name: str):
-    return book.get_by_name(book_name)
+    return books.get_by_name(book_name)
 
 
 @app.get("/search/length_rng/{min}_{max}")
 def search_book_length(min: int, max: int):
-    return book.get_by_length(min, max)
+    return books.get_by_length(min, max)
 
 
 @app.get("/search/author/{author_name}")
 def search_book_author(author_name: str):
-    return book.get_by_author(author_name)
+    return books.get_by_author(author_name)
+
+
+@app.get("/login/{username}_{password}")
+def login(username: str, password: str):
+    return auth.check_auth(username, password)
