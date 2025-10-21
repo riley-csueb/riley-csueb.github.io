@@ -9,10 +9,16 @@
         <div class="nav">
             <a class="nav-item selected" href="#">Library</a>
             <a class="nav-item" href="./browse.html">Browse</a>
+            <div class="nav-item">
+                <input id="login-username"></input>
+                <input id="login-password"></input>
+                <button type="button" id="login-btn">Login</button>
+                <div id="login-notif"></div>
+            </div>
         </div>
         <form class="filter-bar">
             <input id="search-bar" placeholder="Search"/>
-            <button id="search-btn">Search</button>
+            <button type="button" id="search-btn">Search</button>
             <fieldset>
                 <legend>Select a filter type</legend>
                 <div>
@@ -28,16 +34,6 @@
 
         <!-- The following is a container intended for being populated via javascript -->
         <div class="library" id="book-container">
-            <div class="book-entry">
-              <div class="main-block">
-                 <img class="cover" src="" alt="">
-              </div>
-              <div class="info-block">
-                 <h3>{title}</h3>
-                 <h4>{author}</h4>
-                 <button>Return Book</button>
-              </div>
-            </div>
         </div>
 
         <script src="main.js"></script>
