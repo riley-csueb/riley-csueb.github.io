@@ -1,3 +1,21 @@
+let loggedIn = false;
+
+/*  Utility function for making queryies to the backend fastapi server
+ *    query     - the actual query (this should be the endpoint with whatever information required)
+ *    onreceive - callback function pointer, this is called with the response when/if it is received
+ */
+function makeQuery(query, onreceive) {
+    fetch(`http://127.0.0.1:8001/${query}`).then(res => {
+        if (!res.ok) {
+            console.error('invalid response')
+            return
+        }
+        return res.json();
+    }).then(data => {
+        onreceive(data);
+    }).catch(err => console.error(`error: ${err}`))
+}
+
 function setupEventListeners() {
     // Book entry behavior
     let entries = document.body.querySelectorAll('.book-entry')
@@ -44,17 +62,48 @@ function setupEventListeners() {
             }
 
             console.log(query)
-            fetch(`http://127.0.0.1:8000/${query}`).then(res => {
-                if (!res.ok) {
-                    console.error('invalid response')
-                    return
-                }
-                return res.json();
-            }).then(data => {
-                console.log("result -> ", data)
-            }).catch(err => console.error(`error: ${err}`))
+            makeQuery(query, (data) => {
+                console.log(data)
+            })
         }
     });
+
+    // Login Behavior
+    let usernameField = document.body.querySelector('#login-username')
+    let passwordField = document.body.querySelector('#login-password')
+    let loginBtn      = document.body.querySelector('#login-btn')
+    let loginNotif    = document.body.querySelector('#login-notif')
+    loginBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (!loggedIn) {
+            let query = `login/${usernameField.value}_${passwordField.value}`
+
+            makeQuery(query, (data) => {
+                if (data.status === 'ok') {
+                    loginBtn.innerText = `Logout`;
+                    loggedIn = true;
+                    loginNotif.innerText = 'Logged in!'
+                    setTimeout(() => {
+                        loginNotif.innerText = `Hello ${data.username}`
+                    }, 1000);
+                }
+                else {
+                  loginNotif.innerText = 'Invalid credentials'
+                    setTimeout(() => {
+                        loginNotif.innerText = ''
+                    }, 1000);
+                }
+            })
+        }
+        else {
+            loginBtn.innerText = `Login`;
+            loggedIn = false;
+            loginNotif.innerText = 'Logged out!'
+            setTimeout(() => {
+                loginNotif.innerText = ``
+            }, 1000);
+        }
+    })
 }
 
 /*
