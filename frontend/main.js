@@ -4,7 +4,7 @@ let loggedIn = false;
  *    query     - the actual query (this should be the endpoint with whatever information required)
  *    onreceive - callback function pointer, this is called with the response when/if it is received
  */
-function makeQuery(query, onreceive) {
+function makeQuery(query, onreceive, onerror) {
     fetch(`http://127.0.0.1:8001/${query}`).then(res => {
         if (!res.ok) {
             console.error('invalid response')
@@ -13,7 +13,11 @@ function makeQuery(query, onreceive) {
         return res.json();
     }).then(data => {
         onreceive(data);
-    }).catch(err => console.error(`error: ${err}`))
+    }).catch(err => {
+      if (onerror) {
+        onerror(err)
+      }
+    })
 }
 
 function setupEventListeners() {
