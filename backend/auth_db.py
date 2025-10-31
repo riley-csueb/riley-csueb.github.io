@@ -41,3 +41,12 @@ class AuthDb:
             return { 'status': 'error', 'reason': f'User {username} tried to log out, but they never logged in' }
         self.loggedin.remove(username)
         return { 'status': 'ok' }
+
+    def get_books(self, username: str) -> []:
+        if not self.isloggedin(username):
+            return { 'status': 'fail', 'reason': f'{username} not logged in'}
+        user = filter(lambda user: user.books, self.db)
+        return user[0].books
+
+    def isloggedin(self, username: str) -> bool:
+        return username in self.loggedin
