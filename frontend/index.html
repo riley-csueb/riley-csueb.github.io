@@ -36,19 +36,44 @@
         <div class="library" id="book-container">
         </div>
 
+        <div class="error-modal-container" id="error-modal-container" style="display: none">
+          <div class="error-modal">
+            <h1>This website requires backend server running</h1>
+          </div>
+        </div>
+
         <script src="main.js"></script>
         <script>
             const container = document.getElementById("book-container")
+            const error_modal = document.getElementById("error-modal-container")
 
-            for (let i = 0; i < 100; i++) {
-                container.appendChild(createBookEntryDOM({
-                    name: 'name',
-                    author: 'nameauthor',
-                    coverurl: `https://picsum.photos/50/75?random=${i}`,
-                }))
-            }
+            makeQuery('', (result) => {
+              makeQuery('books/debug/all', (result) => {
+                for (let i in result) {
+                  let book = result[i];
+                  fetch(`https://bookcover.longitood.com/bookcover/${book.isbn}`).then(res => {
+                    if (!res.ok) {
+                      console.error('invalid response')
+                      return
+                    }
+                    return res.json();
+                  }).then(data => {
+                    const dom = container.appendChild(createBookEntryDOM({
+                      title: book.title,
+                      author: book.author,
+                      coverurl: data.url
+                    }))
+                    setupCoverEvents(dom)
+                  }).catch(err => console.error(`error: ${err}`));
+                }
+              });
 
-            setupEventListeners()
+              setupSearchEventListener();
+              setupLoginEventListeners();
+            }, (error) => {
+              console.error('could not contact server')
+              error_modal.style.display = 'block'
+            })
         </script>
     </body>
 </html>
