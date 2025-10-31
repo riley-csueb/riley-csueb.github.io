@@ -40,3 +40,8 @@ def search_book_author(author_name: str):
 @app.get("/login/{username}_{password}")
 def login(username: str, password: str):
     return auth.check_auth(username, password)
+
+
+@app.get("/logout/{username}")
+def logout(username: str):
+    return auth.logout(username)
