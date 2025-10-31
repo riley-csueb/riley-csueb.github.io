@@ -50,3 +50,8 @@ def logout(username: str):
 @app.get("/books/{username}")
 def get_books(username: str):
     return auth.get_books(username)
+
+
+@app.get("/books/debug/all")
+def get_all_books():
+    return books.get_all()
