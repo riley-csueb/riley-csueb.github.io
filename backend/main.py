@@ -55,3 +55,8 @@ def get_books(username: str):
 @app.get("/books/debug/all")
 def get_all_books():
     return books.get_all()
+
+
+@app.get("/books/debug/some/{offset}_{count}")
+def get_some_books(offset: int, count: int):
+    return books.get_some(offset, count)
