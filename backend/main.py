@@ -45,3 +45,8 @@ def login(username: str, password: str):
 @app.get("/logout/{username}")
 def logout(username: str):
     return auth.logout(username)
+
+
+@app.get("/books/{username}")
+def get_books(username: str):
+    return auth.get_books(username)
