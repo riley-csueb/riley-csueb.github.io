@@ -20,32 +20,31 @@ function makeQuery(query, onreceive, onerror) {
     })
 }
 
-function setupEventListeners() {
-    // Book entry behavior
-    let entries = document.body.querySelectorAll('.book-entry')
-    console.log(entries)
-    for (let entry of entries) {
-        entry.querySelectorAll('.cover')[0].addEventListener('click', (event) => {
-            // fold other open dom
-            let open = [...entries].filter(entry => entry.querySelector('.info-block').style.display === 'block')
-            for (let i of open) {
-                if (i == entry) continue;
-                i.querySelector('.info-block').style.display = 'none'
-                i.classList.remove('info')
-            }
+function closeCovers() {
+  let entries = document.body.querySelectorAll('.book-entry')
+  for (let entry of entries) {
+    entry.querySelector('.info-block').style.display = 'none'
+    entry.classList.remove('info')
+  }
+}
 
-            // toggle this dom
-            entry.classList.toggle('info')
-            const display = entry.querySelector('.info-block').style.display
-            if (display === 'block') {
-                entry.querySelector('.info-block').style.display = 'none'
-            }
-            else {
-                entry.querySelector('.info-block').style.display = 'block'
-            }
-        });
-    }
+function setupCoverEvents(cover_dom) {
+  cover_dom.addEventListener('click', (event) => {
+    closeCovers()
 
+      // toggle this dom
+      cover_dom.classList.toggle('info')
+      const display = cover_dom.querySelector('.info-block').style.display
+      if (display === 'block') {
+          cover_dom.querySelector('.info-block').style.display = 'none'
+      }
+      else {
+          cover_dom.querySelector('.info-block').style.display = 'block'
+      }
+  });
+}
+
+function setupSearchEventListener() {
     // Search bar behavior
     let searchbar = document.body.querySelector('#search-bar')
     let filterName = document.body.querySelector('#filter-name')
@@ -71,7 +70,9 @@ function setupEventListeners() {
             })
         }
     });
+}
 
+function setupLoginEventListeners() {
     // Login Behavior
     let usernameField = document.body.querySelector('#login-username')
     let passwordField = document.body.querySelector('#login-password')
@@ -87,8 +88,10 @@ function setupEventListeners() {
                     loginBtn.innerText = `Logout`;
                     loggedIn = true;
                     loginNotif.innerText = 'Logged in!'
+                    loggedInUsername = data.username;
+                    console.log(data.books)
                     setTimeout(() => {
-                        loginNotif.innerText = `Hello ${data.username}`
+                        loginNotif.innerText = `Hello ${loggedInUsername}`
                     }, 1000);
                 }
                 else {
@@ -113,7 +116,7 @@ function setupEventListeners() {
 /*
  * conf format
  * {
- *   "name": "bookname"
+ *   "title": "bookname"
  *   "coverurl": "url"
  * }
  *
@@ -148,12 +151,17 @@ function createBookEntryDOM(conf) {
     const info_block_ = document.createElement('div')
     info_block_.classList.add('info-block')
     const info_block_title = document.createElement('h3')
-    info_block_title.innerText = conf.name;
+    info_block_title.innerText = conf.title;
     const info_block_author = document.createElement('h4')
     info_block_author.innerText = conf.author;
+    const info_block_return_btn = document.createElement('button')
+    info_block_return_btn.addEventListener('click', (e) => {
+    });
+    info_block_return_btn.innerText = 'Return'
 
     info_block_.appendChild(info_block_title);
     info_block_.appendChild(info_block_author);
+    info_block_.appendChild(info_block_return_btn);
 
     parent_.appendChild(main_block_);
     parent_.appendChild(info_block_);
