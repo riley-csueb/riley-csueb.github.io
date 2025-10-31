@@ -1,5 +1,4 @@
 import json
-from math_helper import lav_dist
 
 class BookDb():
     def __init__(self):
@@ -19,8 +18,13 @@ class BookDb():
     def get_all(self):
         return self.db
 
+    def get_some(self, offset: int, count: int):
+        return self.db[offset:count]
+
     def get_by_name(self, book_name: str):
+        # use lav dist and return books within a certain threshold
         self.db.sort(key=lambda book: book['title'].lower().count(book_name.lower()), reverse=True)
+        filter(lambda book: book[''], self.db)
         return self.db[0:10]
 
     def get_by_author(self, author_name: str):
