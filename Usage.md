@@ -1,4 +1,9 @@
 # Usage
+## Required Packages
+```bash
+pip install uvicorn fastapi
+```
+
 ## Start Frontend Web Server
 ```bash
 cd frontend && python3 -m http.server
