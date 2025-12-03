@@ -8,14 +8,14 @@
     <body>
         <div class="nav">
             <a class="nav-item selected" href="#">Library</a>
-            <a class="nav-item" href="./browse.html">Browse</a>
             <div class="nav-item">
                 <input id="login-username" placeholder="username" spellcheck="false"></input>
                 <input id="login-password" placeholder="password" spellcheck="false"></input>
-                <button type="button" id="login-btn">Login</button>
+                <button type="button" id="login-logout-btn">Login</button>
                 <div id="login-notif"></div>
             </div>
         </div>
+        <!--
         <form class="filter-bar">
             <input id="search-bar" placeholder="Search"/>
             <button type="button" id="search-btn">Search</button>
@@ -33,7 +33,12 @@
         </form>
 
         <!-- The following is a container intended for being populated via javascript -->
-        <div class="library" id="book-container">
+        <h1>Your Books</h1>
+        <div class="library" id="user-book-container">
+        </div>
+
+        <h1>Library Books</h1>
+        <div class="library" id="library-book-container">
         </div>
 
         <div class="error-modal-container" id="error-modal-container" style="display: none">
@@ -42,14 +47,39 @@
           </div>
         </div>
 
+        <div class="book-info-modal-container" id="book-info-modal-container" style="display: none">
+          <div class="book-info-modal-content">
+            <div>
+              <h1 id="title">Placeholder title</h1>
+              <h3 id="author">Placeholder author</h3>
+              <h3 id="count">Placeholder count</h3>
+              <h3 id="isbn">Placeholder isbn</h3>
+              <button id="book-info-modal-close-btn">Close</button>
+              <button id="book-info-modal-checkout-btn">Check Out</button>
+            </div>
+            <div class="book-info-modal-image">
+              <img id="cover_img" src="image_src" alt="..."/>
+            </div>
+          </div>
+        </div>
+
+        <script src="lms.js"></script>
+        <script src="util.js"></script>
         <script src="main.js"></script>
         <script>
-            const container = document.getElementById("book-container")
-            const error_modal = document.getElementById("error-modal-container")
+            var lms = new LibraryManagementSystem();
 
-            makeQuery('', (result) => {
-              makeQuery('books/debug/all', (result) => {
+            const container = document.getElementById("library-book-container")
+            const error_modal = document.getElementById("error-modal-container")
+            error_modal.style.display = 'none'
+
+            let userbooks = []
+            let all_books = []
+
+            Util.MakeBackendQuery('', (result) => {
+              Util.MakeBackendQuery('books/debug/all', (result) => {
                 for (let i in result) {
+                  all_books.push(result[i])
                   let book = result[i];
                   fetch(`https://bookcover.longitood.com/bookcover/${book.isbn}`).then(res => {
                     if (!res.ok) {
@@ -61,19 +91,30 @@
                     const dom = container.appendChild(createBookEntryDOM({
                       title: book.title,
                       author: book.author,
-                      coverurl: data.url
+                      coverurl: data.url,
+                      count: book.count,
+                      isbn: book.isbn
                     }))
                     setupCoverEvents(dom)
                   }).catch(err => console.error(`error: ${err}`));
                 }
+              }, (result) => {
+                console.error(`failed to get books: ${result}`)
               });
 
-              setupSearchEventListener();
+              // setupSearchEventListener();
               setupLoginEventListeners();
+              setupBookModalEvents();
             }, (error) => {
-              console.error('could not contact server')
+              console.trace('could not contact server')
               error_modal.style.display = 'block'
             })
+
+            window.onbeforeunload = (e) => {
+              if (lms.isLoggedin()) {
+                lms.logout(logout_ui_callback);
+              }
+            };
         </script>
     </body>
 </html>
