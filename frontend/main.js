@@ -147,24 +147,15 @@ function createBookEntryDOM(conf) {
     // main_block_.appendChild(main_block_info);
     main_block_.appendChild(main_block_cover);
 
-    // info-block dom
-    const info_block_ = document.createElement('div')
-    info_block_.classList.add('info-block')
-    const info_block_title = document.createElement('h3')
-    info_block_title.innerText = conf.title;
-    const info_block_author = document.createElement('h4')
-    info_block_author.innerText = conf.author;
-    const info_block_return_btn = document.createElement('button')
-    info_block_return_btn.addEventListener('click', (e) => {
-    });
-    info_block_return_btn.innerText = 'Return'
-
-    info_block_.appendChild(info_block_title);
-    info_block_.appendChild(info_block_author);
-    info_block_.appendChild(info_block_return_btn);
+  // console.log(conf)
+    parent_.setAttribute('data-title', conf.title)
+    parent_.setAttribute('data-author', conf.author)
+    parent_.setAttribute('data-coverurl', conf.coverurl)
+    parent_.setAttribute('data-count', conf.count)
+    parent_.setAttribute('data-isbn', conf.isbn)
 
     parent_.appendChild(main_block_);
-    parent_.appendChild(info_block_);
+    // parent_.appendChild(info_block_);
 
     return parent_;
 }
