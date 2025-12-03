@@ -58,6 +58,15 @@ class LibraryManagementSystem {
       }
     })
   }
+
+  getUserBooks(update_ui_callback) {
+    console.assert(this.activeUser.username !== undefined, "activeUser.username must be defined")
+    Util.MakeBackendQuery(`books/${this.activeUser.username}`, (data) => {
+      console.log('got book information', data)
+      update_ui_callback({books: data})
+    })
+  }
+
   isLoggedin() {
     return this.activeUser.loggedIn;
   }
