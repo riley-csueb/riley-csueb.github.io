@@ -33,6 +33,31 @@ class LibraryManagementSystem {
       }
     })
   }
+
+  logout(update_ui_callback) {
+    console.assert(this.activeUser.username !== undefined, "activeUser.username must be defined")
+    if (!this.activeUser) {
+      update_ui_callback({
+        state: 'fail',
+        message: 'No active user'
+      })
+      return;
+    }
+    Util.MakeBackendQuery(`logout/${this.activeUser.username}`, (data) => {
+      if (data.status === 'ok') {
+        update_ui_callback({
+          state: 'loggedout',
+          activeUser: this.activeUser
+        })
+        this.activeUser = this.emptyActiveUser()
+      }
+      else {
+        update_ui_callback({
+          state: 'fail'
+        })
+      }
+    })
+  }
   isLoggedin() {
     return this.activeUser.loggedIn;
   }
