@@ -29,8 +29,23 @@ function closeCovers() {
 }
 
 function setupCoverEvents(cover_dom) {
+  const modal = document.body.querySelector('#book-info-modal-container')
   cover_dom.addEventListener('click', (event) => {
-    closeCovers()
+    // toggle this dom
+    const display = modal.style.display
+    if (display === 'block') {
+      modal.style.display = 'none'
+    }
+    else {
+      modal.style.display = 'block'
+      modal.querySelector('#title').innerText = cover_dom.dataset.title;
+      modal.querySelector('#author').innerText = cover_dom.dataset.author;
+      modal.querySelector('#count').innerText = cover_dom.dataset.count;
+      modal.querySelector('#isbn').innerText = cover_dom.dataset.isbn
+      modal.querySelector('#cover_img').setAttribute('src', cover_dom.dataset.coverurl)
+    }
+  });
+}
 
       // toggle this dom
       cover_dom.classList.toggle('info')
