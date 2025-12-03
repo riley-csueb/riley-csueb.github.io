@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from auth_db import AuthDb
 from book_db import BookDb
+from pydantic import BaseModel
 
 app = FastAPI()
 app.add_middleware(
@@ -17,9 +18,19 @@ auth.load('db/auth.json')
 books.load('db/books.json')
 
 
+class BookCheckout(BaseModel):
+    username: str
+    isbn: str
+
+
 @app.get("/")
 def read_root():
     return {}
+
+
+@app.get("/book_checkout_isbn/{username}_{isbn}")
+def checkout_book(username: str, isbn: str):
+    return auth.checkout_book(username, isbn, books)
 
 
 @app.get("/search/name/{book_name}")
@@ -39,7 +50,7 @@ def search_book_author(author_name: str):
 
 @app.get("/login/{username}_{password}")
 def login(username: str, password: str):
-    return auth.check_auth(username, password)
+    return auth.login(username, password)
 
 
 @app.get("/logout/{username}")

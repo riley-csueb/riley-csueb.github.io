@@ -33,3 +33,7 @@ class BookDb():
 
     def get_by_length(self, min: int, max: int):
         return list(filter(lambda book: book['length'] >= min and book['length'] <= max, self.db))
+
+    def get_by_isbn(self, isbn: int):
+        book = list(filter(lambda book: book['isbn'] == str(isbn), self.db))
+        return book
