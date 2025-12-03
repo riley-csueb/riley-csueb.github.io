@@ -52,6 +52,23 @@ function populate_userbooks_ui(books) {
     }).catch(err => console.error(`error: ${err}`));
   }
 }
+
+function setupBookModalEvents() {
+  const closeModalHandler = (event, modal) => {
+    modal.style.display = 'none'
+  };
+  const checkoutHandler = (event, modal) => {
+    closeModalHandler(event, modal)
+    if (lms.isLoggedin()) {
+      lms.checkoutBook(modal.querySelector('#isbn').innerText, (data) => populate_userbooks_ui(data.checkout_data.books))
+    }
+  };
+  const modal = document.body.querySelector('#book-info-modal-container')
+  const modalCloseBtn = document.body.querySelector('#book-info-modal-close-btn')
+  const modalCheckoutBtn = document.body.querySelector('#book-info-modal-checkout-btn')
+  modalCheckoutBtn.addEventListener('click', (event) => checkoutHandler(event, modal))
+  modalCloseBtn.addEventListener('click', (event) => closeModalHandler(event, modal))
+  modal.addEventListener('click', (event) => closeModalHandler(event, modal))
 }
 
 function setupSearchEventListener() {
