@@ -70,4 +70,10 @@ class LibraryManagementSystem {
   isLoggedin() {
     return this.activeUser.loggedIn;
   }
+
+  checkoutBook(book_isbn, update_ui_callback) {
+    Util.MakeBackendQuery(`book_checkout_isbn/${this.activeUser.username}_${book_isbn}`, (data) => {
+      this.getUserBooks((data) => update_ui_callback({ checkout_data: data }))
+    })
+  }
 }
