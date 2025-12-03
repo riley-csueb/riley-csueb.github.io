@@ -10,6 +10,29 @@ class LibraryManagementSystem {
     }
   }
 
+  login(username, password, update_ui_callback) {
+    console.assert(username !== undefined, "username must be defined")
+    console.assert(password !== undefined, "username must be defined")
+    console.assert(username.length > 0, "username must not be empty")
+    console.assert(password.length > 0, "username must not be empty")
+    Util.MakeBackendQuery(`login/${username}_${password}`, (data) => {
+      if (data.status === 'ok') {
+        this.activeUser.username = data.username;
+        this.activeUser.loggedIn = true;
+        update_ui_callback({
+          state: 'loggedin',
+          activeUser: this.activeUser,
+        })
+      }
+      else {
+        this.activeUser = this.emptyActiveUser()
+        update_ui_callback({
+          state: 'fail',
+          activeUser: this.activeUser,
+        })
+      }
+    })
+  }
   isLoggedin() {
     return this.activeUser.loggedIn;
   }
