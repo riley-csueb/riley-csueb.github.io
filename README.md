@@ -32,3 +32,20 @@ Manage a library’s book collection with add/edit/search functions.
   - how long you've had this book
   - etc..
   - NOTE: These edit features might be buttons somehow grouped with the book entry
+
+
+# Features That Made It
+- Login to existing user account
+- Multiuser
+- View books when logged into user account
+- View information about book when clicked on
+- Check out books from library into user account (via persistant backend storage)
+
+# Features That Didn't Make It
+- Limited book supply
+- Checking books back in
+- No data on how long you've had a book
+- Use of an existing book database
+- ...
+
+*Note: The scope of making all the features listed above is quite large, so with the amount of time I had solo they didnt get attention*
