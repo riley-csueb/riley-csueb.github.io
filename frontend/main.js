@@ -163,42 +163,20 @@ function login_ui_callback(data) {
 
 function setupLoginEventListeners() {
     // Login Behavior
-    let usernameField = document.body.querySelector('#login-username')
-    let passwordField = document.body.querySelector('#login-password')
-    let loginBtn      = document.body.querySelector('#login-btn')
-    let loginNotif    = document.body.querySelector('#login-notif')
-    loginBtn.addEventListener('click', (event) => {
-        event.preventDefault();
-        if (!loggedIn) {
-            let query = `login/${usernameField.value}_${passwordField.value}`
+    let usernameField  = document.body.querySelector('#login-username')
+    let passwordField  = document.body.querySelector('#login-password')
+    let loginLogoutBtn = document.body.querySelector('#login-logout-btn')
 
-            makeQuery(query, (data) => {
-                if (data.status === 'ok') {
-                    loginBtn.innerText = `Logout`;
-                    loggedIn = true;
-                    loginNotif.innerText = 'Logged in!'
-                    loggedInUsername = data.username;
-                    console.log(data.books)
-                    setTimeout(() => {
-                        loginNotif.innerText = `Hello ${loggedInUsername}`
-                    }, 1000);
-                }
-                else {
-                  loginNotif.innerText = 'Invalid credentials'
-                    setTimeout(() => {
-                        loginNotif.innerText = ''
-                    }, 1000);
-                }
-            })
-        }
-        else {
-            loginBtn.innerText = `Login`;
-            loggedIn = false;
-            loginNotif.innerText = 'Logged out!'
-            setTimeout(() => {
-                loginNotif.innerText = ``
-            }, 1000);
-        }
+    // modalCheckoutBtn.disabled = true;
+
+    loginLogoutBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (!lms.isLoggedin()) {
+        lms.login(usernameField.value, passwordField.value, login_ui_callback)
+      }
+      else {
+        lms.logout(logout_ui_callback)
+      }
     })
 }
 
