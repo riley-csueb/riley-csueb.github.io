@@ -27,16 +27,31 @@ function setupCoverEvents(cover_dom) {
   });
 }
 
-      // toggle this dom
-      cover_dom.classList.toggle('info')
-      const display = cover_dom.querySelector('.info-block').style.display
-      if (display === 'block') {
-          cover_dom.querySelector('.info-block').style.display = 'none'
+function populate_userbooks_ui(books) {
+  console.log(books)
+  let libraryContainer = document.querySelector('#user-book-container')
+  libraryContainer.innerHTML = ''
+
+  for (let book of books) {
+    console.log('populate_user: book = ', book)
+    fetch(`https://bookcover.longitood.com/bookcover/${book.isbn}`).then(res => {
+      if (!res.ok) {
+        console.error('invalid response')
+        return
       }
-      else {
-          cover_dom.querySelector('.info-block').style.display = 'block'
-      }
-  });
+      return res.json();
+    }).then(data => {
+      const dom = libraryContainer.appendChild(createBookEntryDOM({
+        title: book.title,
+        author: book.author,
+        coverurl: data.url,
+        count: book.count,
+        isbn: book.isbn
+      }))
+      setupCoverEvents(dom)
+    }).catch(err => console.error(`error: ${err}`));
+  }
+}
 }
 
 function setupSearchEventListener() {
