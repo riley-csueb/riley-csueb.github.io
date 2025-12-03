@@ -99,6 +99,68 @@ function setupSearchEventListener() {
     });
 }
 
+/** 
+  data: {
+    state: 'success' | 'fail'
+    activeUser: {
+      username: ''
+    },
+    message: ''
+  }
+  */
+function logout_ui_callback(data) {
+  if (data.state === 'loggedout') {
+    loginNotif.innerText = `Goodbye ${data.activeUser.username}!`
+    setTimeout(() => {
+      loginNotif.innerText = ''
+    }, 1000)
+    loginLogoutBtn.innerText = 'Login';
+    modalCheckoutBtn.disabled = true;
+  }
+  if (data.state === 'fail') {
+    loginNotif.innerText = `Error: ${data.message}`
+    setTimeout(() => {
+      loginNotif.innerText = ''
+    }, 1000)
+    loginLogoutBtn.innerText = 'Login';
+  }
+}
+
+/**
+  data: {
+    state: 'success' | 'fail'
+    activeUser: {
+      username: ''
+    }
+    message: ''
+  }
+  */
+function login_ui_callback(data) {
+  let loginNotif     = document.body.querySelector('#login-notif')
+  const modalCloseBtn = document.body.querySelector('#book-info-modal-close-btn')
+  const modalCheckoutBtn = document.body.querySelector('#book-info-modal-checkout-btn')
+  const loginLogoutBtn = document.body.querySelector('#login-logout-btn')
+  if (data.state === 'loggedin') {
+    loginNotif.innerText = `Welcome ${data.activeUser.username}!`
+    loginLogoutBtn.innerText = 'Logout';
+    modalCheckoutBtn.disabled = false;
+    setTimeout(() => {
+      loginNotif.innerText = ''
+    }, 1000)
+
+    lms.getUserBooks((data_) => {
+      console.log(data_)
+      populate_userbooks_ui(data_.books)
+    })
+  }
+  if (data.state === 'fail') {
+    loginNotif.innerText = data.message
+    setTimeout(() => {
+      loginNotif.innerText = ''
+    }, 1000)
+  }
+}
+
 function setupLoginEventListeners() {
     // Login Behavior
     let usernameField = document.body.querySelector('#login-username')
