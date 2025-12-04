@@ -49,3 +49,6 @@ Manage a library’s book collection with add/edit/search functions.
 - ...
 
 *Note: The scope of making all the features listed above is quite large, so with the amount of time I had solo they didnt get attention*
+
+# Sreenshot
+![image](images/screenshot.png)
